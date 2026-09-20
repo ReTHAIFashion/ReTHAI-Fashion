@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReTHAI Fashion — แฟชั่นหมุนเวียน ให้ผ้าเก่าได้ไปต่อ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#F9ACC0;
+    --green:#99CC99;
+    --wood:#DEB887;
+    --cream:#FBF6EF;
+    --paper:#FFFDF9;
+    --ink:#3B3229;
+    --ink-soft:#7A6E62;
+    --pink-deep:#E88CA6;
+    --green-deep:#6FA36F;
+    --wood-deep:#C79A5F;
+    --radius-patch:10px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Sarabun', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Kanit', sans-serif;
+    font-weight:600;
+    line-height:1.25;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:1140px; margin:0 auto; padding:0 24px;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+
+  /* stitched border — recurring device meaning "reworked by hand" */
+  .stitched{
+    position:relative;
+    border:2px dashed rgba(59,50,41,0.35);
+    border-radius:var(--radius-patch);
+  }
+  .stitched::after{
+    content:"";
+    position:absolute; inset:6px;
+    border:1.5px dashed rgba(59,50,41,0.18);
+    border-radius:6px;
+    pointer-events:none;
+  }
+
+  /* ===== NAVBAR ===== */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(251,246,239,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(59,50,41,0.12);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
+  .logo{display:flex; align-items:center; gap:10px;}
+  .logo-mark{width:36px; height:36px; flex-shrink:0;}
+  .logo-text{font-family:'Kanit'; font-weight:700; font-size:1.25rem; letter-spacing:0.2px;}
+  .logo-text span{color:var(--pink-deep);}
+  .nav-links{display:flex; gap:8px;}
+  .nav-links a{
+    font-size:0.98rem; font-weight:500; padding:9px 16px; border-radius:20px;
+    transition:background .2s ease, color .2s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{background:var(--green); color:#fff;}
+  .nav-toggle{display:none; background:none; font-size:1.6rem;}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:72px 0 90px;
+    position:relative;
+  }
+  .hero .wrap{
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;
+  }
+  .eyebrow{
+    display:inline-block; font-size:0.95rem; color:var(--green-deep); font-weight:600;
+    margin-bottom:14px;
+  }
+  .hero h1{font-size:clamp(2.1rem, 4vw, 3.1rem); color:var(--ink); max-width:11ch;}
+  .hero p.lead{font-size:1.1rem; color:var(--ink-soft); margin:20px 0 30px; max-width:46ch;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    padding:13px 26px; border-radius:30px; font-weight:600; font-size:1rem;
+    transition:transform .18s ease, box-shadow .18s ease;
+    display:inline-block;
+  }
+  .btn-primary{background:var(--pink); color:var(--ink);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(249,172,192,0.55);}
+  .btn-outline{border:2px solid var(--ink); color:var(--ink); background:transparent;}
+  .btn-outline:hover{background:var(--ink); color:var(--cream);}
+
+  /* patchwork hero visual — single orchestrated load animation */
+  .patch-stage{
+    position:relative; height:420px;
+  }
+  .patch{
+    position:absolute; border-radius:14px; box-shadow:0 14px 30px rgba(59,50,41,0.18);
+    opacity:0; transform:translateY(40px) rotate(var(--r,0deg)) scale(.9);
+    animation:patchIn .9s cubic-bezier(.2,.8,.2,1) forwards;
+    background-size:cover; background-position:center;
+    object-fit:cover;
+  }
+  .patch img{width:100%; height:100%; object-fit:cover; border-radius:14px;}
+  .p1{width:52%; height:56%; left:2%; top:4%; --r:-6deg; animation-delay:.05s; z-index:3;}
+  .p2{width:46%; height:44%; right:0; top:0; --r:5deg; animation-delay:.22s; z-index:2;}
+  .p3{width:50%; height:40%; right:4%; bottom:2%; --r:-3deg; animation-delay:.38s; z-index:2;}
+  .p4{width:40%; height:34%; left:8%; bottom:0; --r:7deg; animation-delay:.54s; z-index:1;}
+  @keyframes patchIn{
+    to{opacity:1; transform:translateY(0) rotate(var(--r,0deg)) scale(1);}
+  }
+  .thread{
+    position:absolute; border-radius:50%; background:var(--green);
+    opacity:.55; filter:blur(0px);
+  }
+  .thread.t1{width:14px; height:14px; top:10%; left:48%; animation:drift 7s ease-in-out infinite;}
+  .thread.t2{width:9px; height:9px; bottom:14%; left:2%; background:var(--pink); animation:drift 9s ease-in-out infinite 1s;}
+  .thread.t3{width:11px; height:11px; top:2%; right:2%; background:var(--wood); animation:drift 8s ease-in-out infinite .5s;}
+  @keyframes drift{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-16px);}
+  }
+
+  section{padding:88px 0;}
+  .section-head{max-width:640px; margin-bottom:44px;}
+  .section-head .eyebrow{margin-bottom:10px;}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.3rem);}
+  .section-head p{color:var(--ink-soft); margin-top:14px; font-size:1.05rem;}
+
+  /* ===== ABOUT ===== */
+  #about{background:var(--paper);}
+  .about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:center;}
+  .about-frame{padding:10px; background:var(--paper);}
+  .about-frame img{border-radius:6px;}
+  .about-copy p{color:var(--ink-soft); margin-bottom:16px; font-size:1.03rem;}
+  .stat-row{display:flex; gap:28px; margin-top:26px; flex-wrap:wrap;}
+  .stat b{display:block; font-family:'Kanit'; font-size:1.7rem; color:var(--green-deep);}
+  .stat span{font-size:0.9rem; color:var(--ink-soft);}
+
+  /* ===== PRODUCTS ===== */
+  .product-section .tag{
+    display:inline-block; padding:5px 14px; border-radius:20px; font-size:0.85rem; font-weight:600;
+    margin-bottom:16px;
+  }
+  .tag-denim{background:#B9D3C6; color:#2E4A3B;}
+  .tag-tie{background:var(--pink); color:#6b2f42;}
+  .tag-tee{background:var(--wood); color:#4a3419;}
+
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:26px;}
+  .card{
+    background:var(--paper); border-radius:var(--radius-patch); overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{transform:translateY(-6px); box-shadow:0 16px 32px rgba(59,50,41,0.14);}
+  .card-img{
+    aspect-ratio:4/3; overflow:hidden; position:relative;
+  }
+  .card-img img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+  .card:hover .card-img img{transform:scale(1.06);}
+  .card-body{padding:18px 20px 22px;}
+  .card-body h3{font-size:1.05rem; margin-bottom:6px;}
+  .card-body .desc{font-size:0.9rem; color:var(--ink-soft); margin-bottom:14px;}
+  .card-foot{display:flex; align-items:center; justify-content:space-between;}
+  .price{font-family:'Kanit'; font-weight:600; font-size:1.15rem;}
+  .buy-btn{
+    padding:9px 18px; border-radius:22px; background:var(--ink); color:var(--cream);
+    font-size:0.88rem; font-weight:600; transition:background .2s ease;
+  }
+  .buy-btn:hover{background:var(--pink-deep); color:#3b1a26;}
+
+  #denim{background:linear-gradient(180deg, var(--cream) 0%, #EFF6EF 100%);}
+  #tie{background:var(--paper);}
+  #tee{background:linear-gradient(180deg, var(--paper) 0%, #FBF2E2 100%);}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--ink); color:var(--cream); padding:56px 0 28px;}
+  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:36px;}
+  footer h3{font-family:'Kanit'; margin-bottom:14px; font-size:1.1rem;}
+  footer p, footer a{color:#D9CFC3; font-size:0.95rem;}
+  footer .foot-links li{margin-bottom:10px;}
+  footer .foot-links a:hover{color:var(--pink);}
+  .foot-bottom{
+    border-top:1px solid rgba(255,255,255,0.12); padding-top:22px;
+    font-size:0.85rem; color:#B8AC9E; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  /* ===== MODAL (order + QR payment) ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(59,50,41,0.55);
+    display:none; align-items:center; justify-content:center; z-index:1000; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--paper); border-radius:16px; max-width:460px; width:100%;
+    max-height:88vh; overflow-y:auto; padding:30px;
+    animation:modalIn .28s ease;
+  }
+  @keyframes modalIn{from{opacity:0; transform:translateY(18px) scale(.97);} to{opacity:1; transform:translateY(0) scale(1);}}
+  .modal-close{
+    float:right; background:none; font-size:1.4rem; color:var(--ink-soft); line-height:1;
+  }
+  .modal h3{font-size:1.3rem; margin-bottom:4px;}
+  .modal .modal-item{color:var(--ink-soft); font-size:0.95rem; margin-bottom:18px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:0.88rem; font-weight:600; margin-bottom:6px;}
+  .field input, .field textarea{
+    width:100%; padding:11px 13px; border-radius:9px; border:1.5px solid #E2D8CB;
+    font-family:inherit; font-size:0.95rem; background:#FFFEFC;
+  }
+  .field input:focus, .field textarea:focus{outline:2px solid var(--green); border-color:transparent;}
+  .qr-box{
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    padding:18px; border-radius:12px; background:#F4EEE4; margin:18px 0;
+  }
+  .qr-box img{width:190px; height:190px; border-radius:8px; background:#fff; padding:8px;}
+  .qr-box .qr-amount{font-family:'Kanit'; font-weight:600; font-size:1.3rem;}
+  .qr-box .qr-note{font-size:0.82rem; color:var(--ink-soft); text-align:center;}
+  .submit-btn{
+    width:100%; padding:13px; border-radius:30px; background:var(--green); color:#fff;
+    font-weight:600; font-size:1rem; margin-top:6px; transition:background .2s ease;
+  }
+  .submit-btn:hover{background:var(--green-deep);}
+  .submit-btn:disabled{opacity:.6; cursor:not-allowed;}
+  .form-msg{margin-top:12px; font-size:0.9rem; text-align:center;}
+
+  @media (max-width:880px){
+    .nav-links{
+      position:absolute; top:76px; left:0; right:0; background:var(--cream);
+      flex-direction:column; padding:14px; gap:2px; display:none;
+      border-bottom:1px solid rgba(59,50,41,0.12);
+    }
+    .nav-links.open{display:flex;}
+    .nav-links a{width:100%; padding:12px 16px;}
+    .nav-toggle{display:block;}
+    .hero .wrap{grid-template-columns:1fr; text-align:left;}
+    .patch-stage{height:320px; margin-top:20px;}
+    .about-grid{grid-template-columns:1fr;}
+    .grid{grid-template-columns:repeat(2, 1fr);}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .grid{grid-template-columns:1fr;}
+    section{padding:60px 0;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .patch, .thread{animation:none !important; opacity:1 !important; transform:none !important;}
+    .card, .card-img img{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="10" width="16" height="20" rx="3" fill="#F9ACC0" transform="rotate(-8 12 20)"/>
+        <rect x="18" y="6" width="16" height="20" rx="3" fill="#99CC99" transform="rotate(6 26 16)"/>
+        <path d="M10 24 L30 14" stroke="#3B3229" stroke-width="1.4" stroke-dasharray="2.5 2.5" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text">ReTHAI <span>Fashion</span></div>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">หน้าแรก</a></li>
+      <li><a href="#about">เกี่ยวกับ</a></li>
+      <li><a href="#denim">สินค้าจากยีนส์</a></li>
+      <li><a href="#tie">สินค้าจากเนคไท</a></li>
+      <li><a href="#tee">สินค้าจากเสื้อยืด</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">☰</button>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">แฟชั่นหมุนเวียน • Made in Thailand</span>
+      <h1>ผ้าเก่าที่เคยถูกลืม กลายเป็นชิ้นโปรดชิ้นใหม่</h1>
+      <p class="lead">เราคัดกางเกงยีนส์ เนคไท และเสื้อยืดที่ถูกทิ้ง มาออกแบบใหม่ทีละชิ้นด้วยมือ ทุกตะเข็บบอกเล่าเรื่องราวเดิม พร้อมชีวิตใหม่ที่ไม่เหมือนใคร</p>
+      <div class="cta-row">
+        <a href="#denim" class="btn btn-primary">เลือกดูสินค้า</a>
+        <a href="#about" class="btn btn-outline">เรื่องราวของเรา</a>
+      </div>
+    </div>
+    <div class="patch-stage" aria-hidden="true">
+      <!-- รูปภาพ Hero ในเครื่อง (เปลี่ยนชื่อไฟล์ตามต้องการ) -->
+      <div class="patch p1"><img src="hero-1.jpg" alt=""></div>
+      <div class="patch p2"><img src="hero-2.jpg" alt=""></div>
+      <div class="patch p3"><img src="hero-3.jpg" alt=""></div>
+      <div class="patch p4"><img src="hero-4.jpg" alt=""></div>
+      <div class="thread t1"></div>
+      <div class="thread t2"></div>
+      <div class="thread t3"></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-frame stitched">
+      <!-- รูปเกี่ยวกับเราในเครื่อง -->
+      <img src="about-img.jpg" alt="ช่างตัดเย็บกำลังออกแบบเสื้อผ้าหมุนเวียน">
+    </div>
+    <div class="about-copy">
+      <span class="eyebrow">เกี่ยวกับเรา</span>
+      <h2>เราไม่ได้ขายเสื้อผ้ามือสอง เราขายชีวิตรอบใหม่</h2>
+      <p>ReTHAI Fashion เริ่มต้นจากคำถามง่ายๆ ว่า ทำไมเสื้อผ้าที่ยังดีอยู่ต้องกลายเป็นขยะ เราจึงรวบรวมกางเกงยีนส์ เนคไท และเสื้อยืดที่ไม่ได้ใช้แล้ว มาผ่านมือช่างฝีมือคนไทย ตัด เย็บ และดีไซน์ใหม่ให้กลายเป็นเสื้อผ้าที่มีเอกลักษณ์เฉพาะตัว ไม่มีชิ้นไหนเหมือนกันเลยสักชิ้น</p>
+      <p>ทุกการซื้อหนึ่งชิ้นจากเรา หมายถึงผ้าหนึ่งผืนที่ไม่ต้องไปจบที่หลุมฝังกลบ และช่างฝีมือท้องถิ่นได้มีงานทำอย่างต่อเนื่อง</p>
+      <div class="stat-row">
+        <div class="stat"><b>1,200+</b><span>ชิ้นที่กู้คืนแล้ว</span></div>
+        <div class="stat"><b>3</b><span>สายผลิตภัณฑ์หลัก</span></div>
+        <div class="stat"><b>100%</b><span>ตัดเย็บโดยช่างไทย</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="denim" class="product-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag tag-denim">สินค้าจากยีนส์</span>
+      <h2>กางเกงยีนส์เก่า สู่แจ็กเก็ตและกระเป๋าตัวใหม่</h2>
+      <p>ยีนส์แต่ละตัวผ่านการใช้งานมาต่างกัน เราจึงเก็บรอยซีด รอยขาด ไว้เป็นลายเซ็นของชิ้นงาน</p>
+    </div>
+    <div class="grid" id="denim-grid"></div>
+  </div>
+</section>
+
+<section id="tie" class="product-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag tag-tie">สินค้าจากเนคไท</span>
+      <h2>เนคไทหลายร้อยเส้น กลายเป็นของแต่งบ้านและเครื่องประดับ</h2>
+      <p>ลวดลายผ้าไหมและผ้าซาตินจากเนคไทเก่า ถูกนำมาต่อเป็นชิ้นงานที่ใส่ใจทุกรายละเอียด</p>
+    </div>
+    <div class="grid" id="tie-grid"></div>
+  </div>
+</section>
+
+<section id="tee" class="product-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag tag-tee">สินค้าจากเสื้อเชิ้ต</span>
+      <h2>เสื้อเชิ้ตตัวเก่า ปะติดใหม่เป็นชิ้นเดียวในโลก</h2>
+      <p>เราตัดต่อเสื้อเชิ้ตหลายตัวให้กลายเป็นลายผ้าใหม่ที่ไม่ซ้ำใคร เหมาะกับคนที่ไม่อยากแต่งตัวเหมือนใคร</p>
+    </div>
+    <div class="grid" id="tee-grid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h3>ReTHAI Fashion</h3>
+        <p>แฟชั่นหมุนเวียนจากผ้าเก่า ออกแบบและตัดเย็บโดยช่างฝีมือไทย เพื่อโลกที่มีขยะน้อยลงหนึ่งชิ้นในแต่ละครั้ง</p>
+      </div>
+      <div>
+        <h3>เมนู</h3>
+        <ul class="foot-links">
+          <li><a href="#home">หน้าแรก</a></li>
+          <li><a href="#about">เกี่ยวกับ</a></li>
+          <li><a href="#denim">สินค้าจากยีนส์</a></li>
+          <li><a href="#tie">สินค้าจากเนคไท</a></li>
+          <li><a href="#tee">สินค้าจากเสื้อเชิ้ต</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>ติดต่อเรา</h3>
+        <ul class="foot-links">
+          <li>Line: @rethaifashion</li>
+          <li>IG: rethai.fashion</li>
+          <li>โทร: 06x-xxx-xxxx</li>
+          <li>อีเมล: hello@rethaifashion.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ReTHAI Fashion. สงวนลิขสิทธิ์.</span>
+      <span>ตัดเย็บด้วยใจ ที่ประเทศไทย 🇹🇭</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== Order / QR Payment Modal ===== -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="ปิด">×</button>
+    <h3 id="modalProductName">สั่งซื้อสินค้า</h3>
+    <div class="modal-item" id="modalProductPrice"></div>
+
+    <form id="orderForm">
+      <div class="field">
+        <label for="custName">ชื่อ-นามสกุล</label>
+        <input type="text" id="custName" required>
+      </div>
+      <div class="field">
+        <label for="custPhone">เบอร์โทรศัพท์</label>
+        <input type="tel" id="custPhone" required>
+      </div>
+      <div class="field">
+        <label for="custAddress">ที่อยู่จัดส่ง</label>
+        <textarea id="custAddress" rows="2" required></textarea>
+      </div>
+      <div class="field">
+        <label for="custNote">หมายเหตุ (ถ้ามี)</label>
+        <textarea id="custNote" rows="2"></textarea>
+      </div>
+
+      <div class="qr-box">
+        <!-- รูป QR Code พร้อมเพย์ในเครื่อง -->
+        <img id="qrImage" src="promptpay.jpg" alt="QR Code สำหรับชำระเงิน">
+        <div class="qr-amount" id="qrAmount"></div>
+        <div class="qr-note">สแกนจ่ายผ่านแอปธนาคาร แล้วกด "ยืนยันคำสั่งซื้อ" ด้านล่าง</div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">ยืนยันคำสั่งซื้อ</button>
+      <div class="form-msg" id="formMsg"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   1) รายการสินค้า (เปลี่ยนชื่อไฟล์รูปภาพตรง 'img' เป็นรูปในเครื่องของคุณ)
+   ===================================================== */
+const PRODUCTS = {
+  denim: [
+    {name:"Danim Tote Bag", price:490, img:"denim-1.jpg", desc:"ยีนส์เก่าตัดต่อใหม่ ทรงกระเป๋าสุดเท่ห์"},
+    {name:"Danim Hobo Bag", price:590, img:"denim-2.jpg", desc:"กระเป๋ายีนส์ทรงโฮโบสุดชิค สะพายได้สองด้านไม่มีเบื่อ"},
+    {name:"Denim Necktie", price:590, img:"denim-3.jpg", desc:"เนคไทดีไซต์ใหม่จากผ้ายีนต์"},
+    {name:"กระเป๋าตังค์ยีนส์ปักลาย", price:150, img:"denim-4.jpg", desc:"ปักลายมือบนกระเป๋ายีนส์รีไซเคิล"},
+    {name:"Mini Jeans Keychain", price:190, img:"denim-5.jpg", desc:"พวงกุญแจจากเศษผ้ายีนส์"},
+    {name:"Danim Handbag", price:390, img:"denim-6.jpg", desc:"ตัดจากขากางเกงยีนส์ตัวเดียว"}
+  ],
+  tie: [
+    {name:"Reworked Vintage Tie", price:350, img:"tie-1.jpg", desc:"เนคไทคัสตอมแฮนด์เมดชิ้นเดียวในโลก!"},
+    {name:"Necktie handbag", price:490, img:"tie-2.jpg", desc:"งานต่อเนคไท เป็นกระเป๋าสุดชิค"},
+    {name:"𝗗𝗲𝗻𝗶𝗺 Tie Skirt", price:290, img:"tie-3.jpg", desc:"ผสมผสานเนคไทและยีนส์เข้าด้วยกัน"},
+    {name:"Mini Tie keychain", price:150, img:"tie-4.jpg", desc:"พวงกุญแจจากเศษเนคไท"},
+  ],
+  tee: [
+    {name:"The Shirt Bag", price:650, img:"tee-1.jpg", desc:"เปลี่ยนเสื้อเชิ้ต ให้กลายเป็นเพื่อนคู่ใจใบใหม่"},
+    {name:"กระโปรงเสื้อเชิ้ตจับจีบ", price:590, img:"tee-2.jpg", desc:"แปลงโฉมเสื้อเชิ้ต 2 ตัวให้เป็นกระโปรงสุดน่ารัก"},
+]
+};
+
+function renderGrid(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(p => `
+    <div class="card">
+      <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <div class="desc">${p.desc}</div>
+        <div class="card-foot">
+          <span class="price">฿${p.price.toLocaleString()}</span>
+          <button class="buy-btn" data-name="${p.name}" data-price="${p.price}">สั่งซื้อ</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+renderGrid('denim-grid', PRODUCTS.denim);
+renderGrid('tie-grid', PRODUCTS.tie);
+renderGrid('tee-grid', PRODUCTS.tee);
+
+/* =====================================================
+   2) เมนูมือถือ
+   ===================================================== */
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+/* =====================================================
+   3) Modal สั่งซื้อ + QR ชำระเงิน
+   ===================================================== */
+const modal = document.getElementById('orderModal');
+const modalClose = document.getElementById('modalClose');
+const modalProductName = document.getElementById('modalProductName');
+const modalProductPrice = document.getElementById('modalProductPrice');
+const qrImage = document.getElementById('qrImage');
+const qrAmount = document.getElementById('qrAmount');
+const orderForm = document.getElementById('orderForm');
+const submitBtn = document.getElementById('submitBtn');
+const formMsg = document.getElementById('formMsg');
+
+let currentOrder = null;
+
+document.addEventListener('click', (e) => {
+  if(e.target.classList.contains('buy-btn')){
+    const name = e.target.dataset.name;
+    const price = Number(e.target.dataset.price);
+    currentOrder = {name, price};
+    modalProductName.textContent = name;
+    modalProductPrice.textContent = `ราคา ฿${price.toLocaleString()}`;
+    qrAmount.textContent = `฿${price.toLocaleString()}`;
+    qrImage.src = "promptpay.jpg"; // ชื่อไฟล์รูป QR Code ในเครื่อง
+    formMsg.textContent = '';
+    formMsg.style.color = 'var(--ink-soft)';
+    orderForm.reset();
+    modal.classList.add('open');
+  }
+});
+modalClose.addEventListener('click', () => modal.classList.remove('open'));
+modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('open'); });
+
+/* =====================================================
+   4) ส่งออเดอร์เข้า Google Sheet ผ่าน Google Apps Script (แก้ไขโค้ดให้สมบูรณ์แล้ว)
+   ===================================================== */
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzW797i8ntqIvhdC8hszgvcXnhxAJCB_x0CqXKxM9Tzx0JWQw0IZZsIPBzECvv-anjB/exec"; 
+ 
+orderForm.addEventListener('submit', async (e) => { 
+  e.preventDefault(); 
+  if(!currentOrder) return; 
+
+  const payload = { 
+    timestamp: new Date().toLocaleString('th-TH'), 
+    product: currentOrder.name, 
+    price: currentOrder.price, 
+    name: document.getElementById('custName').value, 
+    phone: document.getElementById('custPhone').value, 
+    address: document.getElementById('custAddress').value, 
+    note: document.getElementById('custNote').value 
+  }; 
+   
+  submitBtn.disabled = true; 
+  submitBtn.textContent = 'กำลังส่งคำสั่งซื้อ...'; 
+  formMsg.textContent = ''; 
+   
+  try { 
+    if(GOOGLE_SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')){ 
+      // โหมดทดสอบ 
+      await new Promise(r => setTimeout(r, 700)); 
+      formMsg.style.color = 'var(--green-deep)'; 
+      formMsg.textContent = "รับคำสั่งซื้อแล้ว (โหมดทดสอบ - ยังไม่เชื่อมต่อ Google Sheet จริง)"; 
+    } else { 
+       await fetch(GOOGLE_SCRIPT_URL, { 
+        method: 'POST', 
+        mode: 'no-cors', 
+        headers: {'Content-Type':'text/plain'}, 
+        body: JSON.stringify(payload) 
+      }); 
+      formMsg.style.color = 'var(--green-deep)'; 
+      formMsg.textContent = 'ขอบคุณค่ะ! เราได้รับคำสั่งซื้อของคุณแล้ว'; 
+    } 
+   
+    setTimeout(() => { 
+      modal.classList.remove('open'); 
+    }, 1800); 
+   
+  } catch(err) { 
+    console.error(err); 
+    formMsg.style.color = '#C0392B'; 
+    formMsg.textContent = 'ส่งคำสั่งซื้อไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'; 
+  } finally { 
+    submitBtn.disabled = false; 
+    submitBtn.textContent = 'ยืนยันคำสั่งซื้อ'; 
+  }
+});
+</script>
+</body>
+</html>
