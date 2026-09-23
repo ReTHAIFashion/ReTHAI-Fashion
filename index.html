@@ -181,9 +181,117 @@
   }
   .buy-btn:hover{background:var(--pink-deep); color:#3b1a26;}
 
+  /* ปุ่มเพิ่มลงตะกร้า — วางคู่กับ buy-btn เดิม */
+  .card-actions{display:flex; align-items:center; gap:8px;}
+  .card-options{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;}
+  .opt-btn{
+    padding:5px 11px; border-radius:16px; border:1.5px solid #E2D8CB; background:var(--paper);
+    font-size:0.78rem; color:var(--ink); transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .opt-btn.active{background:var(--green); border-color:var(--green); color:#fff;}
+  .cart-btn{
+    padding:9px 14px; border-radius:22px; background:transparent; color:var(--ink);
+    font-size:0.88rem; font-weight:600; border:1.5px solid var(--ink); transition:background .2s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  .cart-btn:hover{background:var(--ink); color:var(--cream);}
+  .cart-btn.added{background:var(--green-deep); border-color:var(--green-deep); color:#fff;}
+
   #denim{background:linear-gradient(180deg, var(--cream) 0%, #EFF6EF 100%);}
   #tie{background:var(--paper);}
   #tee{background:linear-gradient(180deg, var(--paper) 0%, #FBF2E2 100%);}
+
+  /* ===== BEFORE / AFTER SLIDER ===== */
+  #ba-transform{background:var(--paper);}
+  .ba-wrap{
+    position:relative;
+    width:100%;
+    max-width:680px;
+    margin:0 auto;
+    aspect-ratio:4/3;
+    overflow:hidden;
+    border-radius:var(--radius-patch);
+    box-shadow:0 16px 32px rgba(59,50,41,0.16);
+    background:var(--cream);
+    user-select:none;
+    touch-action:pan-y;
+  }
+  .ba-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;}
+  .ba-before{background:linear-gradient(135deg,#DEB887,#C79A5F);}
+  .ba-after{background:linear-gradient(135deg,#99CC99,#6FA36F);}
+  .ba-fill{
+    display:flex; align-items:center; justify-content:center; height:100%;
+    color:#fff; font-family:'Kanit'; font-weight:600; font-size:1rem;
+    letter-spacing:.02em; text-align:center; padding:16px; opacity:.92;
+  }
+  .ba-after-layer{position:absolute; inset:0; width:100%; height:100%; overflow:hidden; clip-path:inset(0 0 0 50%);}
+  .ba-after-layer .ba-img{position:absolute; inset:0;}
+  .ba-divider{position:absolute; top:0; bottom:0; left:50%; width:0; transform:translateX(-50%); pointer-events:none;}
+  .ba-divider::before{
+    content:""; position:absolute; top:0; bottom:0; left:-1px; width:2px;
+    background:#fff; box-shadow:0 0 6px rgba(0,0,0,.35);
+  }
+  .ba-handle{
+    position:absolute; top:50%; left:50%; width:46px; height:46px; border-radius:50%;
+    background:#fff; transform:translate(-50%,-50%); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.25); cursor:ew-resize; pointer-events:none;
+  }
+  .ba-handle svg{width:20px; height:20px; fill:var(--green-deep);}
+  .ba-label{
+    position:absolute; bottom:12px; padding:5px 12px; font-size:0.75rem; font-weight:700;
+    color:#fff; background:rgba(59,50,41,0.55); border-radius:20px; letter-spacing:.03em; pointer-events:none;
+  }
+  .ba-label.left{left:12px;}
+  .ba-label.right{right:12px;}
+  .ba-hint{text-align:center; font-size:0.85rem; color:var(--ink-soft); margin-top:14px;}
+
+  /* ===== FLOATING CART + DRAWER ===== */
+  .cart-fab{
+    position:fixed; right:22px; bottom:22px; width:58px; height:58px; border-radius:50%;
+    background:var(--ink); color:var(--cream); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 22px rgba(59,50,41,0.35); z-index:200; transition:background .2s ease;
+  }
+  .cart-fab:hover{background:var(--pink-deep);}
+  .cart-fab svg{width:24px; height:24px; fill:var(--cream);}
+  .cart-badge{
+    position:absolute; top:-4px; right:-4px; background:var(--pink-deep); color:#fff;
+    font-size:0.72rem; font-weight:700; min-width:20px; height:20px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center; padding:0 4px;
+  }
+  .cart-overlay{
+    position:fixed; inset:0; background:rgba(59,50,41,0.5); opacity:0; pointer-events:none;
+    transition:opacity .25s ease; z-index:210;
+  }
+  .cart-overlay.open{opacity:1; pointer-events:auto;}
+  .cart-drawer{
+    position:fixed; top:0; right:0; bottom:0; width:min(400px,92vw);
+    background:var(--cream); box-shadow:-10px 0 26px rgba(0,0,0,.2);
+    transform:translateX(100%); transition:transform .3s ease; z-index:211;
+    display:flex; flex-direction:column;
+  }
+  .cart-drawer.open{transform:translateX(0);}
+  .cart-head{display:flex; align-items:center; justify-content:space-between; padding:20px 22px; border-bottom:1px solid rgba(59,50,41,0.12);}
+  .cart-head h3{font-size:1.15rem;}
+  .cart-close{background:none; font-size:1.5rem; color:var(--ink-soft); line-height:1;}
+  .cart-items{flex:1; overflow-y:auto; padding:16px 22px; display:flex; flex-direction:column; gap:14px;}
+  .cart-empty{text-align:center; color:var(--ink-soft); font-size:0.92rem; margin-top:48px;}
+  .cart-item{display:flex; gap:12px; border-bottom:1px solid rgba(59,50,41,0.1); padding-bottom:14px;}
+  .cart-item-thumb{width:58px; height:58px; border-radius:8px; background:linear-gradient(135deg,var(--pink),var(--wood)); flex-shrink:0;}
+  .cart-item-info{flex:1; min-width:0;}
+  .cart-item-name{font-weight:600; font-size:0.92rem;}
+  .cart-item-opt{font-size:0.78rem; color:var(--ink-soft); margin:2px 0 8px;}
+  .cart-item-controls{display:flex; align-items:center; gap:8px;}
+  .qty-btn{width:26px; height:26px; border-radius:7px; border:1.5px solid #E2D8CB; background:var(--paper); font-weight:700; line-height:1;}
+  .cart-item-price{font-family:'Kanit'; font-weight:600; color:var(--green-deep); font-size:0.9rem; white-space:nowrap;}
+  .cart-item-remove{background:none; color:#C0392B; font-size:0.78rem; text-decoration:underline; padding:0; margin-top:6px;}
+  .cart-foot{padding:18px 22px; border-top:1px solid rgba(59,50,41,0.12);}
+  .cart-total-row{display:flex; justify-content:space-between; font-family:'Kanit'; font-weight:600; margin-bottom:14px; font-size:1.05rem;}
+  .cart-checkout-btn{
+    width:100%; padding:13px; border-radius:30px; background:var(--green); color:#fff;
+    font-weight:600; font-size:1rem; transition:background .2s ease;
+  }
+  .cart-checkout-btn:hover{background:var(--green-deep);}
+  .cart-checkout-btn:disabled{opacity:.55; cursor:not-allowed;}
 
   /* ===== FOOTER ===== */
   footer{background:var(--ink); color:var(--cream); padding:56px 0 28px;}
@@ -214,6 +322,9 @@
   }
   .modal h3{font-size:1.3rem; margin-bottom:4px;}
   .modal .modal-item{color:var(--ink-soft); font-size:0.95rem; margin-bottom:18px;}
+  .modal-cart-list{list-style:none; margin:0 0 16px; padding:0; border-top:1px dashed #E2D8CB; border-bottom:1px dashed #E2D8CB;}
+  .modal-cart-list li{display:flex; justify-content:space-between; font-size:0.88rem; padding:8px 0; border-bottom:1px solid #F0E9DD;}
+  .modal-cart-list li:last-child{border-bottom:none;}
   .field{margin-bottom:14px;}
   .field label{display:block; font-size:0.88rem; font-weight:600; margin-bottom:6px;}
   .field input, .field textarea{
@@ -254,6 +365,7 @@
   @media (max-width:560px){
     .grid{grid-template-columns:1fr;}
     section{padding:60px 0;}
+    .cart-fab{right:16px; bottom:16px; width:52px; height:52px;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -277,6 +389,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#home">หน้าแรก</a></li>
       <li><a href="#about">เกี่ยวกับ</a></li>
+      <li><a href="#ba-transform">ก่อน-หลัง</a></li>
       <li><a href="#denim">สินค้าจากยีนส์</a></li>
       <li><a href="#tie">สินค้าจากเนคไท</a></li>
       <li><a href="#tee">สินค้าจากเสื้อยืด</a></li>
@@ -306,6 +419,38 @@
       <div class="thread t2"></div>
       <div class="thread t3"></div>
     </div>
+  </div>
+</section>
+
+<!-- ===== BEFORE / AFTER SLIDER ===== -->
+<section id="ba-transform">
+  <div class="wrap">
+    <div class="section-head" style="margin-left:auto; margin-right:auto; text-align:center;">
+      <span class="eyebrow">เห็นการเปลี่ยนแปลงด้วยตาตัวเอง</span>
+      <h2>จากผ้าเก่าที่ถูกลืม สู่ชิ้นงานใหม่</h2>
+      <p>ลากตัวเลื่อนเพื่อเทียบวัตถุดิบตั้งต้นกับผลงานที่ออกแบบใหม่ทีละชิ้น</p>
+    </div>
+
+    <div class="ba-wrap stitched" id="baSlider">
+      <div class="ba-img ba-before">
+        <!-- แทนที่ .ba-fill ด้วย <img src="before.jpg" class="ba-img" alt="ผ้าเก่าก่อนรีดีไซน์"> -->
+        <img src="before.jpg" class="ba-img" alt="ผ้าเก่าก่อนรีดีไซน์">
+      </div>
+      <div class="ba-after-layer" id="baAfterLayer">
+        <div class="ba-img ba-after">
+          <!-- แทนที่ .ba-fill ด้วย <img src="after.jpg" class="ba-img" alt="สินค้าดีไซน์ใหม่"> -->
+          <img src="after.jpg" class="ba-img" alt="สินค้าดีไซน์ใหม่">
+        </div>
+      </div>
+      <div class="ba-divider" id="baDivider">
+        <div class="ba-handle">
+          <svg viewBox="0 0 24 24"><path d="M8 5l-6 7 6 7V5zm8 0v14l6-7-6-7z"/></svg>
+        </div>
+      </div>
+      <span class="ba-label left">ก่อน</span>
+      <span class="ba-label right">หลัง</span>
+    </div>
+    <p class="ba-hint">ลากซ้าย–ขวาด้วยเมาส์หรือปัดนิ้วเพื่อเปรียบเทียบภาพ</p>
   </div>
 </section>
 
@@ -396,12 +541,13 @@
   </div>
 </footer>
 
-<!-- ===== Order / QR Payment Modal ===== -->
+<!-- ===== Order / QR Payment Modal (ใช้ร่วมกันทั้ง "สั่งซื้อทันที" และ "เช็คเอาต์จากตะกร้า") ===== -->
 <div class="modal-overlay" id="orderModal">
   <div class="modal">
     <button class="modal-close" id="modalClose" aria-label="ปิด">×</button>
     <h3 id="modalProductName">สั่งซื้อสินค้า</h3>
     <div class="modal-item" id="modalProductPrice"></div>
+    <ul class="modal-cart-list" id="modalCartList" style="display:none;"></ul>
 
     <form id="orderForm">
       <div class="field">
@@ -434,9 +580,34 @@
   </div>
 </div>
 
+<!-- ===== FLOATING CART ICON + DRAWER ===== -->
+<button class="cart-fab" id="cartFab" aria-label="เปิดตะกร้าสินค้า">
+  <svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44c-.16.28-.25.61-.25.97 0 1.1.9 2 2 2h12v-2h-11.42c-.13 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1h-14.2l-.95-2zm2 15c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+  <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+</button>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-head">
+    <h3>ตะกร้าสินค้าของคุณ</h3>
+    <button class="cart-close" id="cartClose" aria-label="ปิด">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">ยังไม่มีสินค้าในตะกร้า</p>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total-row">
+      <span>ยอดรวม</span>
+      <span id="cartTotal">฿0</span>
+    </div>
+    <button class="cart-checkout-btn" id="cartCheckoutBtn" disabled>เช็คเอาต์</button>
+  </div>
+</aside>
+
 <script>
 /* =====================================================
-   1) รายการสินค้า (เปลี่ยนชื่อไฟล์รูปภาพตรง 'img' เป็นรูปในเครื่องของคุณ)
+   1) รายการสินค้า
+   - เพิ่ม field "options" (ถ้ามี) เพื่อให้ปุ่ม "เพิ่มลงตะกร้า" แสดงตัวเลือกให้กด
+     ถ้าไม่ใส่ options สินค้านั้นจะกดเพิ่มลงตะกร้าได้เลยโดยไม่มีตัวเลือก
    ===================================================== */
 const PRODUCTS = {
   denim: [
@@ -444,40 +615,47 @@ const PRODUCTS = {
     {name:"Danim Hobo Bag", price:590, img:"denim-2.jpg", desc:"กระเป๋ายีนส์ทรงโฮโบสุดชิค สะพายได้สองด้านไม่มีเบื่อ"},
     {name:"Denim Necktie", price:590, img:"denim-3.jpg", desc:"เนคไทดีไซต์ใหม่จากผ้ายีนต์"},
     {name:"กระเป๋าตังค์ยีนส์ปักลาย", price:150, img:"denim-4.jpg", desc:"ปักลายมือบนกระเป๋ายีนส์รีไซเคิล"},
-    {name:"Mini Jeans Keychain", price:190, img:"denim-5.jpg", desc:"พวงกุญแจจากเศษผ้ายีนส์"},
+    {name:"Mini Jeans Keychain", price:190, img:"denim-5.jpg", desc:"พวงกุญแจจากเศษผ้ายีนส์", options:["ลายพื้น","ลายปัก"]},
     {name:"Danim Handbag", price:390, img:"denim-6.jpg", desc:"ตัดจากขากางเกงยีนส์ตัวเดียว"}
   ],
   tie: [
     {name:"Reworked Vintage Tie", price:350, img:"tie-1.jpg", desc:"เนคไทคัสตอมแฮนด์เมดชิ้นเดียวในโลก!"},
     {name:"Necktie handbag", price:490, img:"tie-2.jpg", desc:"งานต่อเนคไท เป็นกระเป๋าสุดชิค"},
-    {name:"𝗗𝗲𝗻𝗶𝗺 Tie Skirt", price:290, img:"tie-3.jpg", desc:"ผสมผสานเนคไทและยีนส์เข้าด้วยกัน"},
+    {name:"𝗗𝗲𝗻𝗶𝗺 Tie Skirt", price:290, img:"tie-3.jpg", desc:"ผสมผสานเนคไทและยีนส์เข้าด้วยกัน", options:["S","M","L"]},
     {name:"Mini Tie keychain", price:150, img:"tie-4.jpg", desc:"พวงกุญแจจากเศษเนคไท"},
   ],
   tee: [
     {name:"The Shirt Bag", price:650, img:"tee-1.jpg", desc:"เปลี่ยนเสื้อเชิ้ต ให้กลายเป็นเพื่อนคู่ใจใบใหม่"},
-    {name:"กระโปรงเสื้อเชิ้ตจับจีบ", price:590, img:"tee-2.jpg", desc:"แปลงโฉมเสื้อเชิ้ต 2 ตัวให้เป็นกระโปรงสุดน่ารัก"},
+    {name:"กระโปรงเสื้อเชิ้ตจับจีบ", price:590, img:"tee-2.jpg", desc:"แปลงโฉมเสื้อเชิ้ต 2 ตัวให้เป็นกระโปรงสุดน่ารัก", options:["S","M","L"]},
 ]
 };
 
-function renderGrid(containerId, items){
+function renderGrid(containerId, category, items){
   const el = document.getElementById(containerId);
-  el.innerHTML = items.map(p => `
+  el.innerHTML = items.map((p, idx) => `
     <div class="card">
       <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
       <div class="card-body">
         <h3>${p.name}</h3>
         <div class="desc">${p.desc}</div>
+        ${p.options ? `
+        <div class="card-options" data-category="${category}" data-idx="${idx}">
+          ${p.options.map((opt,i)=>`<button type="button" class="opt-btn${i===0?' active':''}" data-opt="${opt}">${opt}</button>`).join('')}
+        </div>` : ''}
         <div class="card-foot">
           <span class="price">฿${p.price.toLocaleString()}</span>
-          <button class="buy-btn" data-name="${p.name}" data-price="${p.price}">สั่งซื้อ</button>
+          <div class="card-actions">
+            <button class="cart-btn" data-category="${category}" data-idx="${idx}">เพิ่มลงตะกร้า</button>
+            <button class="buy-btn" data-name="${p.name}" data-price="${p.price}">สั่งซื้อ</button>
+          </div>
         </div>
       </div>
     </div>
   `).join('');
 }
-renderGrid('denim-grid', PRODUCTS.denim);
-renderGrid('tie-grid', PRODUCTS.tie);
-renderGrid('tee-grid', PRODUCTS.tee);
+renderGrid('denim-grid', 'denim', PRODUCTS.denim);
+renderGrid('tie-grid', 'tie', PRODUCTS.tie);
+renderGrid('tee-grid', 'tee', PRODUCTS.tee);
 
 /* =====================================================
    2) เมนูมือถือ
@@ -488,40 +666,230 @@ navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
 /* =====================================================
-   3) Modal สั่งซื้อ + QR ชำระเงิน
+   3) Before / After Slider
+   ===================================================== */
+(function(){
+  const wrap    = document.getElementById('baSlider');
+  const layer   = document.getElementById('baAfterLayer');
+  const divider = document.getElementById('baDivider');
+  let dragging = false;
+
+  function setPos(percent){
+    percent = Math.max(0, Math.min(100, percent));
+    layer.style.clipPath = `inset(0 0 0 ${percent}%)`;
+    divider.style.left = percent + '%';
+  }
+  function posFromEvent(e){
+    const rect = wrap.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    return ((clientX - rect.left) / rect.width) * 100;
+  }
+  function start(e){ dragging = true; move(e); }
+  function move(e){
+    if(!dragging) return;
+    setPos(posFromEvent(e));
+    if(e.cancelable) e.preventDefault();
+  }
+  function end(){ dragging = false; }
+
+  wrap.addEventListener('mousedown', start);
+  window.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  wrap.addEventListener('touchstart', start, {passive:true});
+  wrap.addEventListener('touchmove', move, {passive:false});
+  wrap.addEventListener('touchend', end);
+
+  setPos(50);
+})();
+
+/* =====================================================
+   4) ตะกร้าสินค้า (เพิ่ม/ลด/ลบ + Drawer)
+   ===================================================== */
+let cart = []; // {category, idx, name, price, option, qty}
+
+// เลือกตัวเลือกสินค้า (option) ในการ์ด
+document.addEventListener('click', (e) => {
+  if(e.target.classList.contains('opt-btn')){
+    const row = e.target.closest('.card-options');
+    row.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+  }
+});
+
+// เพิ่มลงตะกร้า
+document.addEventListener('click', (e) => {
+  if(!e.target.classList.contains('cart-btn')) return;
+  const category = e.target.dataset.category;
+  const idx = Number(e.target.dataset.idx);
+  const product = PRODUCTS[category][idx];
+
+  let option = '';
+  const optRow = e.target.closest('.card-body').querySelector('.card-options');
+  if(optRow){
+    const active = optRow.querySelector('.opt-btn.active');
+    option = active ? active.dataset.opt : '';
+  }
+
+  const existing = cart.find(it => it.category===category && it.idx===idx && it.option===option);
+  if(existing){
+    existing.qty += 1;
+  } else {
+    cart.push({category, idx, name:product.name, price:product.price, img: product.img, option, qty:1});
+  }
+  renderCart();
+
+  e.target.classList.add('added');
+  const original = e.target.textContent;
+  e.target.textContent = 'เพิ่มแล้ว ✓';
+  setTimeout(() => {
+    e.target.classList.remove('added');
+    e.target.textContent = original;
+  }, 900);
+});
+
+function changeQty(i, delta){
+  cart[i].qty += delta;
+  if(cart[i].qty <= 0) cart.splice(i,1);
+  renderCart();
+}
+function removeItem(i){
+  cart.splice(i,1);
+  renderCart();
+}
+
+const cartItemsEl   = document.getElementById('cartItems');
+const cartBadge     = document.getElementById('cartBadge');
+const cartTotalEl   = document.getElementById('cartTotal');
+const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
+
+function renderCart(){
+  const totalQty = cart.reduce((s,it) => s + it.qty, 0);
+  const totalPrice = cart.reduce((s,it) => s + it.qty * it.price, 0);
+
+  cartBadge.textContent = totalQty;
+  cartBadge.style.display = totalQty > 0 ? 'flex' : 'none';
+  cartTotalEl.textContent = '฿' + totalPrice.toLocaleString();
+  cartCheckoutBtn.disabled = totalQty === 0;
+
+  if(cart.length === 0){
+    cartItemsEl.innerHTML = '<p class="cart-empty">ยังไม่มีสินค้าในตะกร้า</p>';
+    return;
+  }
+
+  cartItemsEl.innerHTML = cart.map((it, i) => `
+    <div class="cart-item">
+   <div class="cart-item-thumb"><img src="${it.img}" alt="${it.name}"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${it.name}</div>
+        <div class="cart-item-opt">${it.option ? 'ตัวเลือก: ' + it.option : ''}</div>
+        <div class="cart-item-controls">
+          <button type="button" class="qty-btn" data-action="dec" data-i="${i}">−</button>
+          <span>${it.qty}</span>
+          <button type="button" class="qty-btn" data-action="inc" data-i="${i}">+</button>
+          <span class="cart-item-price">฿${(it.price*it.qty).toLocaleString()}</span>
+        </div>
+        <button type="button" class="cart-item-remove" data-i="${i}">ลบสินค้า</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+cartItemsEl.addEventListener('click', (e) => {
+  const i = e.target.dataset.i;
+  if(i === undefined) return;
+  if(e.target.dataset.action === 'inc') changeQty(+i, +1);
+  if(e.target.dataset.action === 'dec') changeQty(+i, -1);
+  if(e.target.classList.contains('cart-item-remove')) removeItem(+i);
+});
+
+const cartFab    = document.getElementById('cartFab');
+const cartDrawer = document.getElementById('cartDrawer');
+const cartOverlay= document.getElementById('cartOverlay');
+const cartClose  = document.getElementById('cartClose');
+
+function openCart(){
+  cartDrawer.classList.add('open');
+  cartOverlay.classList.add('open');
+  cartDrawer.setAttribute('aria-hidden','false');
+}
+function closeCart(){
+  cartDrawer.classList.remove('open');
+  cartOverlay.classList.remove('open');
+  cartDrawer.setAttribute('aria-hidden','true');
+}
+cartFab.addEventListener('click', openCart);
+cartClose.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+
+/* =====================================================
+   5) Modal สั่งซื้อ + QR ชำระเงิน
+   ใช้ร่วมกัน 2 ทาง:
+   - buy-btn (เดิม): สั่งซื้อสินค้าชิ้นเดียวทันที
+   - cartCheckoutBtn (ใหม่): เช็คเอาต์สินค้าทั้งหมดในตะกร้า
    ===================================================== */
 const modal = document.getElementById('orderModal');
 const modalClose = document.getElementById('modalClose');
 const modalProductName = document.getElementById('modalProductName');
 const modalProductPrice = document.getElementById('modalProductPrice');
+const modalCartList = document.getElementById('modalCartList');
 const qrImage = document.getElementById('qrImage');
 const qrAmount = document.getElementById('qrAmount');
 const orderForm = document.getElementById('orderForm');
 const submitBtn = document.getElementById('submitBtn');
 const formMsg = document.getElementById('formMsg');
 
-let currentOrder = null;
+let currentOrder = null; // {isCart:false, name, price} หรือ {isCart:true, items:[...], total}
 
+function openOrderModal(){
+  formMsg.textContent = '';
+  formMsg.style.color = 'var(--ink-soft)';
+  orderForm.reset();
+  modal.classList.add('open');
+}
+
+// สั่งซื้อทันที (ปุ่ม "สั่งซื้อ" เดิมในแต่ละการ์ด)
 document.addEventListener('click', (e) => {
   if(e.target.classList.contains('buy-btn')){
     const name = e.target.dataset.name;
     const price = Number(e.target.dataset.price);
-    currentOrder = {name, price};
+    currentOrder = {isCart:false, name, price};
     modalProductName.textContent = name;
     modalProductPrice.textContent = `ราคา ฿${price.toLocaleString()}`;
+    modalCartList.style.display = 'none';
     qrAmount.textContent = `฿${price.toLocaleString()}`;
-    qrImage.src = "promptpay.jpg"; // ชื่อไฟล์รูป QR Code ในเครื่อง
-    formMsg.textContent = '';
-    formMsg.style.color = 'var(--ink-soft)';
-    orderForm.reset();
-    modal.classList.add('open');
+    qrImage.src = "promptpay.jpg";
+    openOrderModal();
   }
 });
+
+// เช็คเอาต์จากตะกร้า
+cartCheckoutBtn.addEventListener('click', () => {
+  if(cart.length === 0) return;
+  const total = cart.reduce((s,it) => s + it.qty*it.price, 0);
+  currentOrder = {isCart:true, items: cart.map(it => ({...it})), total};
+
+  modalProductName.textContent = 'สรุปคำสั่งซื้อจากตะกร้า';
+  modalProductPrice.textContent = `รวม ${cart.reduce((s,it)=>s+it.qty,0)} ชิ้น`;
+  modalCartList.style.display = 'block';
+  modalCartList.innerHTML = cart.map(it => `
+    <li><span>${it.name}${it.option ? ' (' + it.option + ')' : ''} × ${it.qty}</span><span>฿${(it.price*it.qty).toLocaleString()}</span></li>
+  `).join('');
+  qrAmount.textContent = `฿${total.toLocaleString()}`;
+  qrImage.src = "promptpay.jpg";
+
+  closeCart();
+  openOrderModal();
+});
+
 modalClose.addEventListener('click', () => modal.classList.remove('open'));
 modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('open'); });
 
 /* =====================================================
-   4) ส่งออเดอร์เข้า Google Sheet ผ่าน Google Apps Script (แก้ไขโค้ดให้สมบูรณ์แล้ว)
+   6) ส่งออเดอร์เข้า Google Sheet ผ่าน Google Apps Script
+   หมายเหตุ: ถ้าเช็คเอาต์จากตะกร้า payload จะมี field "items" เพิ่มมา
+   (เป็น array ของสินค้า) — ฝั่ง Apps Script เดิมที่รับแค่ product/price
+   เดี่ยวๆ จะยังทำงานได้ปกติ แต่ถ้าต้องการบันทึกรายการสินค้าในตะกร้า
+   ทั้งหมดลงชีตด้วย ต้องแก้สคริปต์ฝั่ง Google ให้อ่าน field "items" เพิ่ม
    ===================================================== */
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzW797i8ntqIvhdC8hszgvcXnhxAJCB_x0CqXKxM9Tzx0JWQw0IZZsIPBzECvv-anjB/exec"; 
  
@@ -531,8 +899,11 @@ orderForm.addEventListener('submit', async (e) => {
 
   const payload = { 
     timestamp: new Date().toLocaleString('th-TH'), 
-    product: currentOrder.name, 
-    price: currentOrder.price, 
+    product: currentOrder.isCart 
+  ? currentOrder.items.map(it => `${it.name} (${it.qty} ชิ้น)` + (it.option ? ` [${it.option}]` : '')).join(', ') 
+  : currentOrder.name,
+    price: currentOrder.isCart ? currentOrder.total : currentOrder.price, 
+    items: currentOrder.isCart ? currentOrder.items : undefined,
     name: document.getElementById('custName').value, 
     phone: document.getElementById('custPhone').value, 
     address: document.getElementById('custAddress').value, 
@@ -560,6 +931,11 @@ orderForm.addEventListener('submit', async (e) => {
       formMsg.textContent = 'ขอบคุณค่ะ! เราได้รับคำสั่งซื้อของคุณแล้ว'; 
     } 
    
+    if(currentOrder.isCart){
+      cart = [];
+      renderCart();
+    }
+
     setTimeout(() => { 
       modal.classList.remove('open'); 
     }, 1800); 
@@ -573,6 +949,8 @@ orderForm.addEventListener('submit', async (e) => {
     submitBtn.textContent = 'ยืนยันคำสั่งซื้อ'; 
   }
 });
+
+renderCart();
 </script>
 </body>
 </html>
