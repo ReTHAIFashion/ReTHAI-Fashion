@@ -293,6 +293,136 @@
   .cart-checkout-btn:hover{background:var(--green-deep);}
   .cart-checkout-btn:disabled{opacity:.55; cursor:not-allowed;}
 
+  /* ===== WISHLIST ===== */
+  .wish-btn{
+    position:absolute; top:10px; right:10px; width:34px; height:34px; border-radius:50%;
+    background:rgba(255,253,249,0.9); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 8px rgba(59,50,41,0.18); z-index:2; transition:transform .15s ease;
+  }
+  .wish-btn:hover{transform:scale(1.08);}
+  .wish-btn svg{width:18px; height:18px; fill:none; stroke:var(--ink); stroke-width:2;}
+  .wish-btn.active svg{fill:var(--pink-deep); stroke:var(--pink-deep);}
+
+  .wish-fab{
+    position:fixed; right:22px; bottom:92px; width:52px; height:52px; border-radius:50%;
+    background:var(--paper); border:1.5px solid var(--ink); color:var(--ink); display:flex;
+    align-items:center; justify-content:center; box-shadow:0 10px 22px rgba(59,50,41,0.22); z-index:200;
+  }
+  .wish-fab svg{width:20px; height:20px; fill:none; stroke:var(--pink-deep); stroke-width:2;}
+  .wish-badge{
+    position:absolute; top:-4px; right:-4px; background:var(--pink-deep); color:#fff;
+    font-size:0.7rem; font-weight:700; min-width:19px; height:19px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center; padding:0 4px;
+  }
+  .wish-drawer{
+    position:fixed; top:0; right:0; bottom:0; width:min(400px,92vw);
+    background:var(--cream); box-shadow:-10px 0 26px rgba(0,0,0,.2);
+    transform:translateX(100%); transition:transform .3s ease; z-index:211;
+    display:flex; flex-direction:column;
+  }
+  .wish-drawer.open{transform:translateX(0);}
+  .wish-items{flex:1; overflow-y:auto; padding:16px 22px; display:flex; flex-direction:column; gap:14px;}
+  .wish-item{display:flex; gap:12px; align-items:center; border-bottom:1px solid rgba(59,50,41,0.1); padding-bottom:14px;}
+  .wish-item-thumb{width:54px; height:54px; border-radius:8px; background:linear-gradient(135deg,var(--wood),var(--pink)); flex-shrink:0;}
+  .wish-item-info{flex:1; min-width:0;}
+  .wish-item-name{font-weight:600; font-size:0.9rem;}
+  .wish-item-price{font-family:'Kanit'; color:var(--green-deep); font-weight:600; font-size:0.85rem; margin:2px 0 8px;}
+  .wish-item-actions{display:flex; gap:8px;}
+  .wish-add-btn{padding:6px 12px; border-radius:16px; background:var(--ink); color:var(--cream); font-size:0.76rem; font-weight:600;}
+  .wish-remove-btn{padding:6px 10px; border-radius:16px; background:none; border:1px solid #E2D8CB; color:var(--ink-soft); font-size:0.76rem;}
+
+  /* ===== CUSTOMIZER + GACHA ===== */
+  #customizer{background:linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);}
+  .custom-panel{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;}
+  .custom-group{margin-bottom:26px;}
+  .custom-group h4{font-family:'Kanit'; font-size:1rem; margin-bottom:12px;}
+  .swatch-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .swatch-btn{
+    display:flex; flex-direction:column; align-items:center; gap:6px; background:none; padding:0;
+  }
+  .swatch-circle{
+    width:52px; height:52px; border-radius:50%; border:3px solid transparent;
+    box-shadow:0 2px 6px rgba(59,50,41,0.18); transition:border-color .15s ease, transform .15s ease;
+  }
+  .swatch-btn.active .swatch-circle{border-color:var(--ink); transform:scale(1.06);}
+  .swatch-btn span{font-size:0.72rem; color:var(--ink-soft); max-width:64px; text-align:center;}
+  .swatch-btn.active span{color:var(--ink); font-weight:600;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip-btn{
+    padding:8px 14px; border-radius:18px; border:1.5px solid #E2D8CB; background:var(--paper);
+    font-size:0.85rem; color:var(--ink); transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .chip-btn .chip-price{display:block; font-size:0.7rem; color:var(--ink-soft); margin-top:2px;}
+  .chip-btn.active{background:var(--ink); border-color:var(--ink); color:var(--cream);}
+  .chip-btn.active .chip-price{color:#D9CFC3;}
+
+  .custom-preview{
+    position:sticky; top:100px; background:var(--paper); border-radius:var(--radius-patch);
+    padding:26px; box-shadow:0 14px 30px rgba(59,50,41,0.14);
+  }
+  .preview-box{
+    aspect-ratio:4/3; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    text-align:center; color:#fff; font-family:'Kanit'; font-weight:600; padding:18px; transition:background .3s ease;
+    box-shadow:inset 0 0 0 3px rgba(255,255,255,0.35);
+  }
+  .preview-summary{margin:18px 0; font-size:0.92rem; color:var(--ink-soft); line-height:1.8;}
+  .preview-summary b{color:var(--ink);}
+  .preview-price{font-family:'Kanit'; font-size:1.5rem; font-weight:600; color:var(--green-deep); margin-bottom:14px;}
+
+  .gacha-block{
+    margin-top:40px; padding-top:36px; border-top:1px dashed rgba(59,50,41,0.25);
+    text-align:center;
+  }
+  .gacha-machine{
+    width:100px; height:100px; margin:0 auto 16px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff, var(--pink) 40%, var(--pink-deep) 100%);
+    display:flex; align-items:center; justify-content:center; font-size:2.2rem;
+    box-shadow:0 10px 24px rgba(232,140,166,0.4);
+    transition:transform .15s ease;
+  }
+  .gacha-machine.spinning{animation:gachaSpin .9s cubic-bezier(.36,.07,.19,.97);}
+  @keyframes gachaSpin{
+    0%{transform:rotate(0) scale(1);}
+    30%{transform:rotate(200deg) scale(1.1);}
+    60%{transform:rotate(380deg) scale(.95);}
+    100%{transform:rotate(360deg) scale(1);}
+  }
+  .gacha-btn{
+    padding:14px 30px; border-radius:30px; background:var(--pink-deep); color:#fff;
+    font-weight:600; font-size:1rem; box-shadow:0 8px 20px rgba(232,140,166,0.45);
+    transition:transform .18s ease;
+  }
+  .gacha-btn:hover{transform:translateY(-2px);}
+  .gacha-btn:disabled{opacity:.6; cursor:not-allowed; transform:none;}
+  .gacha-result{
+    max-width:420px; margin:22px auto 0; background:var(--paper); border-radius:var(--radius-patch);
+    padding:20px; box-shadow:0 10px 24px rgba(59,50,41,0.14); display:none; text-align:left;
+  }
+  .gacha-result.show{display:block; animation:resultIn .35s ease;}
+  @keyframes resultIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+  .gacha-result.rare{
+    background:linear-gradient(135deg,#fff7e6,#fff);
+    box-shadow:0 0 0 2px var(--wood-deep), 0 14px 30px rgba(199,154,95,0.4);
+  }
+  .gacha-badge{
+    display:inline-block; padding:4px 12px; border-radius:14px; font-size:0.75rem; font-weight:700;
+    background:var(--green); color:#fff; margin-bottom:10px;
+  }
+  .gacha-badge.rare{background:linear-gradient(135deg,var(--wood-deep),#e8b85f); color:#3a2a0f;}
+  .gacha-result h4{font-family:'Kanit'; font-size:1.1rem; margin-bottom:6px;}
+  .gacha-result p{font-size:0.88rem; color:var(--ink-soft); margin-bottom:12px;}
+  .gacha-result .price{display:block; margin-bottom:12px;}
+  .custom-add-btn{
+    width:100%; padding:13px; border-radius:30px; background:var(--ink); color:var(--cream);
+    font-weight:600; font-size:0.95rem; transition:background .2s ease;
+  }
+  .custom-add-btn:hover{background:var(--pink-deep);}
+
+  @media (max-width:880px){
+    .custom-panel{grid-template-columns:1fr;}
+    .custom-preview{position:static;}
+  }
+
   /* ===== FOOTER ===== */
   footer{background:var(--ink); color:var(--cream); padding:56px 0 28px;}
   .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:36px;}
@@ -390,6 +520,7 @@
       <li><a href="#home">หน้าแรก</a></li>
       <li><a href="#about">เกี่ยวกับ</a></li>
       <li><a href="#ba-transform">ก่อน-หลัง</a></li>
+      <li><a href="#customizer">ออกแบบเอง</a></li>
       <li><a href="#denim">สินค้าจากยีนส์</a></li>
       <li><a href="#tie">สินค้าจากเนคไท</a></li>
       <li><a href="#tee">สินค้าจากเสื้อยืด</a></li>
@@ -434,7 +565,7 @@
     <div class="ba-wrap stitched" id="baSlider">
       <div class="ba-img ba-before">
         <!-- แทนที่ .ba-fill ด้วย <img src="before.jpg" class="ba-img" alt="ผ้าเก่าก่อนรีดีไซน์"> -->
-        <img src="before.jpg" class="ba-img" alt="ผ้าเก่าก่อนรีดีไซน์">
+       <img src="before.jpg" class="ba-img" alt="ผ้าเก่าก่อนรีดีไซน์">
       </div>
       <div class="ba-after-layer" id="baAfterLayer">
         <div class="ba-img ba-after">
@@ -504,6 +635,60 @@
       <p>เราตัดต่อเสื้อเชิ้ตหลายตัวให้กลายเป็นลายผ้าใหม่ที่ไม่ซ้ำใคร เหมาะกับคนที่ไม่อยากแต่งตัวเหมือนใคร</p>
     </div>
     <div class="grid" id="tee-grid"></div>
+  </div>
+</section>
+
+<!-- ===== CUSTOMIZER + GACHA ===== -->
+<section id="customizer">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">ออกแบบในแบบของคุณ</span>
+      <h2>Customized Product — ชิ้นที่มีแค่คุณเท่านั้น</h2>
+      <p>เลือกผ้าตั้งต้น สไตล์ และดีเทลเสริม เพื่อสร้างชิ้นงาน Upcycling ในแบบที่เป็นคุณ</p>
+    </div>
+
+    <div class="custom-panel">
+      <div>
+        <div class="custom-group">
+          <h4>1. เลือกประเภทผ้าหลัก</h4>
+          <div class="swatch-row" id="fabricRow"></div>
+        </div>
+        <div class="custom-group">
+          <h4>2. เลือกสไตล์</h4>
+          <div class="chip-row" id="styleRow"></div>
+        </div>
+        <div class="custom-group">
+          <h4>3. อะไหล่กระเป๋า</h4>
+          <div class="chip-row" id="hardwareRow"></div>
+        </div>
+        <div class="custom-group">
+          <h4>4. สีซิป</h4>
+          <div class="chip-row" id="zipRow"></div>
+        </div>
+      </div>
+
+      <div class="custom-preview">
+        <div class="preview-box" id="previewBox"></div>
+        <div class="preview-summary" id="previewSummary"></div>
+        <div class="preview-price" id="previewPrice">฿890</div>
+        <button class="custom-add-btn" id="customAddBtn">เพิ่มดีไซน์นี้ลงตะกร้า</button>
+      </div>
+    </div>
+
+    <div class="gacha-block">
+      <div class="gacha-machine" id="gachaMachine">🎁</div>
+      <h3 style="margin-bottom:8px;">ไม่รู้จะเลือกยังไง? ลองสุ่มกาชาปองแฟชั่นคราฟต์</h3>
+      <p style="color:var(--ink-soft); font-size:0.92rem; margin-bottom:18px;">ระบบจะสุ่มจับคู่ผ้าเก่า ลาย และดีเทลให้เอง มีโอกาสได้ไอเทมลับ Secret Rare ชิ้นเดียวในโลก!</p>
+      <button class="gacha-btn" id="gachaBtn">🎲 สุ่มกาชาปอง (ฟรี)</button>
+
+      <div class="gacha-result" id="gachaResult">
+        <span class="gacha-badge" id="gachaBadge">ผลการสุ่ม</span>
+        <h4 id="gachaName"></h4>
+        <p id="gachaDesc"></p>
+        <span class="price" id="gachaPrice"></span>
+        <button class="custom-add-btn" id="gachaAddBtn">เพิ่มไอเทมนี้ลงตะกร้า</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -580,6 +765,21 @@
   </div>
 </div>
 
+<!-- ===== FLOATING WISHLIST ICON + DRAWER ===== -->
+<button class="wish-fab" id="wishFab" aria-label="เปิดรายการที่ถูกใจ">
+  <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+  <span class="wish-badge" id="wishBadge" style="display:none;">0</span>
+</button>
+<aside class="wish-drawer" id="wishDrawer" aria-hidden="true">
+  <div class="cart-head">
+    <h3>รายการที่ถูกใจ</h3>
+    <button class="cart-close" id="wishClose" aria-label="ปิด">&times;</button>
+  </div>
+  <div class="wish-items" id="wishItems">
+    <p class="cart-empty">ยังไม่มีสินค้าที่บันทึกไว้</p>
+  </div>
+</aside>
+
 <!-- ===== FLOATING CART ICON + DRAWER ===== -->
 <button class="cart-fab" id="cartFab" aria-label="เปิดตะกร้าสินค้า">
   <svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.44c-.16.28-.25.61-.25.97 0 1.1.9 2 2 2h12v-2h-11.42c-.13 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1h-14.2l-.95-2zm2 15c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
@@ -634,7 +834,12 @@ function renderGrid(containerId, category, items){
   const el = document.getElementById(containerId);
   el.innerHTML = items.map((p, idx) => `
     <div class="card">
-      <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+      <div class="card-img">
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        <button type="button" class="wish-btn" data-category="${category}" data-idx="${idx}" aria-label="บันทึกที่ถูกใจ">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
       <div class="card-body">
         <h3>${p.name}</h3>
         <div class="desc">${p.desc}</div>
@@ -734,7 +939,7 @@ document.addEventListener('click', (e) => {
   if(existing){
     existing.qty += 1;
   } else {
-    cart.push({category, idx, name:product.name, price:product.price, img: product.img, option, qty:1});
+  cart.push({category, idx, name:product.name, price:product.price, img: product.img, option, qty:1});
   }
   renderCart();
 
@@ -778,7 +983,7 @@ function renderCart(){
 
   cartItemsEl.innerHTML = cart.map((it, i) => `
     <div class="cart-item">
-   <div class="cart-item-thumb"><img src="${it.img}" alt="${it.name}"></div>
+     <div class="cart-item-thumb" style="background-image: url('${it.img}'); background-size: cover; background-position: center;"></div>
       <div class="cart-item-info">
         <div class="cart-item-name">${it.name}</div>
         <div class="cart-item-opt">${it.option ? 'ตัวเลือก: ' + it.option : ''}</div>
@@ -820,6 +1025,108 @@ function closeCart(){
 cartFab.addEventListener('click', openCart);
 cartClose.addEventListener('click', closeCart);
 cartOverlay.addEventListener('click', closeCart);
+
+/* =====================================================
+   4b) Wishlist (บันทึกสินค้าที่ถูกใจ ด้วย localStorage)
+   ===================================================== */
+const WISH_KEY = 'rethai_wishlist';
+let wishlist = [];
+try{
+  wishlist = JSON.parse(localStorage.getItem(WISH_KEY) || '[]');
+}catch(err){ wishlist = []; }
+
+function saveWishlist(){
+  try{ localStorage.setItem(WISH_KEY, JSON.stringify(wishlist)); }catch(err){}
+}
+function isWished(category, idx){
+  return wishlist.some(w => w.category===category && w.idx===idx);
+}
+function toggleWish(category, idx){
+  const i = wishlist.findIndex(w => w.category===category && w.idx===idx);
+  if(i > -1){ wishlist.splice(i,1); } else { wishlist.push({category, idx}); }
+  saveWishlist();
+  syncWishButtons();
+  renderWishDrawer();
+}
+function syncWishButtons(){
+  document.querySelectorAll('.wish-btn').forEach(btn => {
+    const category = btn.dataset.category;
+    const idx = Number(btn.dataset.idx);
+    btn.classList.toggle('active', isWished(category, idx));
+  });
+  wishBadge.textContent = wishlist.length;
+  wishBadge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+}
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.wish-btn');
+  if(!btn) return;
+  toggleWish(btn.dataset.category, Number(btn.dataset.idx));
+});
+
+const wishItemsEl = document.getElementById('wishItems');
+const wishBadge   = document.getElementById('wishBadge');
+const wishFab     = document.getElementById('wishFab');
+const wishDrawer  = document.getElementById('wishDrawer');
+const wishClose   = document.getElementById('wishClose');
+
+function renderWishDrawer(){
+  if(wishlist.length === 0){
+    wishItemsEl.innerHTML = '<p class="cart-empty">ยังไม่มีสินค้าที่บันทึกไว้</p>';
+    return;
+  }
+  wishItemsEl.innerHTML = wishlist.map((w, i) => {
+    const p = PRODUCTS[w.category][w.idx];
+    if(!p) return '';
+    return `
+      <div class="wish-item">
+        <div class="wish-item-thumb"></div>
+        <div class="wish-item-info">
+          <div class="wish-item-name">${p.name}</div>
+          <div class="wish-item-price">฿${p.price.toLocaleString()}</div>
+          <div class="wish-item-actions">
+            <button type="button" class="wish-add-btn" data-category="${w.category}" data-idx="${w.idx}">เพิ่มลงตะกร้า</button>
+            <button type="button" class="wish-remove-btn" data-i="${i}">ลบ</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+wishItemsEl.addEventListener('click', (e) => {
+  if(e.target.classList.contains('wish-add-btn')){
+    const category = e.target.dataset.category;
+    const idx = Number(e.target.dataset.idx);
+    const product = PRODUCTS[category][idx];
+    const existing = cart.find(it => it.category===category && it.idx===idx && it.option==='');
+    if(existing){ existing.qty += 1; } else { cart.push({category, idx, name:product.name, price:product.price, img: product.img, option, qty:1}); }
+    renderCart();
+  }
+  if(e.target.classList.contains('wish-remove-btn')){
+    const i = Number(e.target.dataset.i);
+    wishlist.splice(i,1);
+    saveWishlist();
+    syncWishButtons();
+    renderWishDrawer();
+  }
+});
+
+function openWish(){
+  wishDrawer.classList.add('open');
+  cartOverlay.classList.add('open');
+  wishDrawer.setAttribute('aria-hidden','false');
+}
+function closeWish(){
+  wishDrawer.classList.remove('open');
+  cartOverlay.classList.remove('open');
+  wishDrawer.setAttribute('aria-hidden','true');
+}
+wishFab.addEventListener('click', () => { renderWishDrawer(); openWish(); });
+wishClose.addEventListener('click', closeWish);
+cartOverlay.addEventListener('click', closeWish);
+
+syncWishButtons();
 
 /* =====================================================
    5) Modal สั่งซื้อ + QR ชำระเงิน
@@ -899,8 +1206,8 @@ orderForm.addEventListener('submit', async (e) => {
 
   const payload = { 
     timestamp: new Date().toLocaleString('th-TH'), 
-    product: currentOrder.isCart 
-  ? currentOrder.items.map(it => `${it.name} (${it.qty} ชิ้น)` + (it.option ? ` [${it.option}]` : '')).join(', ') 
+   product: currentOrder.isCart 
+  ? currentOrder.items.map(item => `${item.name}${item.option ? ' (' + item.option + ')' : ''} (${item.qty} ชิ้น)`).join(', ') 
   : currentOrder.name,
     price: currentOrder.isCart ? currentOrder.total : currentOrder.price, 
     items: currentOrder.isCart ? currentOrder.items : undefined,
@@ -948,6 +1255,178 @@ orderForm.addEventListener('submit', async (e) => {
     submitBtn.disabled = false; 
     submitBtn.textContent = 'ยืนยันคำสั่งซื้อ'; 
   }
+});
+
+/* =====================================================
+   7) Customized Product — Customizer + Gacha
+   ===================================================== */
+const FABRICS = [
+  {id:'denim-dark', name: 'ยีนส์สีโทนเข้ม', swatch: "url('fabric-denim1.jpg')"},
+  {id:'denim-light', name: 'ยีนส์สีโทนอ่อน', swatch: "url('fabric-denim2.jpg')"},
+   {id:'denim-black', name: 'ยีนส์สีโทนดำ', swatch: "url('fabric-denim3.jpg')"},
+  {id:'tie-silk', name: 'เนคไทผ้าไหม', swatch: "url('fabric-tie.jpg')"},
+  {id:'shirt-stripe', name: 'เสื้อเชิ้ตลายทาง', swatch: "url('fabric-shirt.jpg')"}
+];
+const STYLES = [
+  {id:'brand-random', name:'สุ่มสไตล์ที่แบรนด์ออกแบบ', price:0},
+  {id:'embroidery',   name:'ปักลาย',                 price:150},
+  {id:'beads',         name:'ปักกระดุม/ลูกปัด',        price:200}
+];
+const HARDWARE = [
+  {id:'hw-none',   name:'อะไหล่มาตรฐาน', price:0},
+  {id:'hw-gold',   name:'อะไหล่ทอง',    price:80},
+  {id:'hw-silver', name:'อะไหล่เงิน',    price:80}
+];
+const ZIPS = [
+  {id:'zip-black', name:'ซิปดำ',  price:0},
+  {id:'zip-red',   name:'ซิปแดง', price:50},
+  {id:'zip-green', name:'ซิปเขียว', price:50}
+];
+const CUSTOM_BASE_PRICE = 890;
+
+let selFabric = FABRICS[0], selStyle = STYLES[0], selHardware = HARDWARE[0], selZip = ZIPS[0];
+
+function renderOptionRow(containerId, list, type){
+  const el = document.getElementById(containerId);
+  if(type === 'swatch'){
+    el.innerHTML = list.map((f,i) => `
+      <button type="button" class="swatch-btn${i===0?' active':''}" data-id="${f.id}">
+        <span class="swatch-circle" style="background:${f.swatch};"></span>
+        <span>${f.name}</span>
+      </button>
+    `).join('');
+  } else {
+    el.innerHTML = list.map((s,i) => `
+      <button type="button" class="chip-btn${i===0?' active':''}" data-id="${s.id}">
+        ${s.name}${s.price>0 ? `<span class="chip-price">+฿${s.price}</span>` : ''}
+      </button>
+    `).join('');
+  }
+}
+renderOptionRow('fabricRow', FABRICS, 'swatch');
+renderOptionRow('styleRow', STYLES, 'chip');
+renderOptionRow('hardwareRow', HARDWARE, 'chip');
+renderOptionRow('zipRow', ZIPS, 'chip');
+
+const previewBox = document.getElementById('previewBox');
+const previewSummary = document.getElementById('previewSummary');
+const previewPrice = document.getElementById('previewPrice');
+
+function updatePreview(){
+  const total = CUSTOM_BASE_PRICE + selStyle.price + selHardware.price + selZip.price;
+  previewBox.style.background = selFabric.swatch;
+  previewBox.textContent = `${selFabric.name} × ${selStyle.name}`;
+  previewSummary.innerHTML = `
+    ผ้าหลัก: <b>${selFabric.name}</b><br>
+    สไตล์: <b>${selStyle.name}</b><br>
+    อะไหล่: <b>${selHardware.name}</b> · สีซิป: <b>${selZip.name}</b>
+  `;
+  previewPrice.textContent = '฿' + total.toLocaleString();
+}
+updatePreview();
+
+document.getElementById('fabricRow').addEventListener('click', (e) => {
+  const btn = e.target.closest('.swatch-btn'); if(!btn) return;
+  document.querySelectorAll('#fabricRow .swatch-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selFabric = FABRICS.find(f => f.id === btn.dataset.id);
+  updatePreview();
+});
+document.getElementById('styleRow').addEventListener('click', (e) => {
+  const btn = e.target.closest('.chip-btn'); if(!btn) return;
+  document.querySelectorAll('#styleRow .chip-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selStyle = STYLES.find(s => s.id === btn.dataset.id);
+  updatePreview();
+});
+document.getElementById('hardwareRow').addEventListener('click', (e) => {
+  const btn = e.target.closest('.chip-btn'); if(!btn) return;
+  document.querySelectorAll('#hardwareRow .chip-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selHardware = HARDWARE.find(h => h.id === btn.dataset.id);
+  updatePreview();
+});
+document.getElementById('zipRow').addEventListener('click', (e) => {
+  const btn = e.target.closest('.chip-btn'); if(!btn) return;
+  document.querySelectorAll('#zipRow .chip-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selZip = ZIPS.find(z => z.id === btn.dataset.id);
+  updatePreview();
+});
+
+document.getElementById('customAddBtn').addEventListener('click', () => {
+  const total = CUSTOM_BASE_PRICE + selStyle.price + selHardware.price + selZip.price;
+  const name = `Custom: ${selFabric.name} × ${selStyle.name}`;
+  const option = `${selHardware.name}, ${selZip.name}`;
+cart.push({
+  category: 'custom',
+  idx: null,
+  name: name,
+  price: total,
+  img: selFabric.swatch, 
+  option: option,
+  qty: 1
+});
+  renderCart();
+  openCart();
+});
+
+// ---- Gacha ----
+const gachaMachine = document.getElementById('gachaMachine');
+const gachaBtn = document.getElementById('gachaBtn');
+const gachaResult = document.getElementById('gachaResult');
+const gachaBadge = document.getElementById('gachaBadge');
+const gachaName = document.getElementById('gachaName');
+const gachaDesc = document.getElementById('gachaDesc');
+const gachaPriceEl = document.getElementById('gachaPrice');
+const gachaAddBtn = document.getElementById('gachaAddBtn');
+const RARE_CHANCE = 0.12;
+let lastGacha = null;
+
+function pickRandom(list){ return list[Math.floor(Math.random() * list.length)]; }
+
+gachaBtn.addEventListener('click', () => {
+  gachaBtn.disabled = true;
+  gachaMachine.classList.add('spinning');
+  gachaResult.classList.remove('show','rare');
+
+  setTimeout(() => {
+    gachaMachine.classList.remove('spinning');
+
+    const fabric = pickRandom(FABRICS);
+    const style = pickRandom(STYLES);
+    const hardware = pickRandom(HARDWARE);
+    const zip = pickRandom(ZIPS);
+    const isRare = Math.random() < RARE_CHANCE;
+
+    let total = CUSTOM_BASE_PRICE + style.price + hardware.price + zip.price;
+    let name = `${fabric.name} × ${style.name}`;
+    let desc = `อะไหล่: ${hardware.name} · สีซิป: ${zip.name}`;
+
+    if(isRare){
+      total += 300;
+      name = `✨ Secret Rare — ${fabric.name} × ${style.name} พิเศษ`;
+      desc = `คอมโบหายาก: ${hardware.name} + ${zip.name} + ปักมือทั้งชิ้น (ชิ้นเดียวในโลก รับประกันไม่ซ้ำ)`;
+    }
+
+    gachaBadge.textContent = isRare ? '🌟 SECRET RARE' : 'ผลการสุ่มของคุณ';
+    gachaBadge.classList.toggle('rare', isRare);
+    gachaResult.classList.toggle('rare', isRare);
+    gachaName.textContent = name;
+    gachaDesc.textContent = desc;
+    gachaPriceEl.textContent = '฿' + total.toLocaleString();
+    gachaResult.classList.add('show');
+
+    lastGacha = {name, price: total, option: desc};
+    gachaBtn.disabled = false;
+  }, 900);
+});
+
+gachaAddBtn.addEventListener('click', () => {
+  if(!lastGacha) return;
+  cart.push({category:'gacha', idx:null, name: lastGacha.name, price: lastGacha.price, option: lastGacha.option, qty:1});
+  renderCart();
+  openCart();
 });
 
 renderCart();
